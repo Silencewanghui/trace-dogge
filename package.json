@@ -11,6 +11,7 @@
   "author": "Collection FE",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^9.1.4"
+    "inquirer": "^9.1.4",
+    "source-map-js": "^1.0.2"
   }
 }
