@@ -1,4 +1,21 @@
 import inquirer from 'inquirer';
+import sourceMap from 'source-map';
+import fs from 'fs';
+
+const readJson = (fileDirection) => {
+  return JSON.parse(fs.readFileSync(fileDirection).toString());
+};
+
+const findSource = async ({rawSourceMapFileDirection, line, column}) => {
+  const fileContent = readJson(rawSourceMapFileDirection);
+
+  const consumer = await new sourceMap.SourceMapConsumer(fileContent);
+
+  return consumer.originalPositionFor({
+    line: line,
+    column: column,
+  });
+};
 
 const main = async () => {
   const answerOne = await inquirer.prompt([
@@ -6,7 +23,7 @@ const main = async () => {
       type: 'input',
       name: 'question',
       message: '请输入你要分析的 sourceMap 文件名',
-      default: 'bundle.js.map.json',
+      default: './modal.esm.js.map.json',
     },
   ]);
   const answerTwo = await inquirer.prompt([
@@ -14,7 +31,7 @@ const main = async () => {
       type: 'input',
       name: 'question',
       message: '请输入错误信息所在的行',
-      default: '118',
+      default: '157',
     },
   ]);
   const answerThree = await inquirer.prompt([
@@ -22,15 +39,17 @@ const main = async () => {
       type: 'input',
       name: 'question',
       message: '请输入错误信息所在的列',
-      default: '57',
+      default: '557369',
     },
   ]);
 
-  // TODO: use user's answer to figure out the actual file and code line
+  const positionInfo = await findSource({
+    rawSourceMapFileDirection: answerOne.question,
+    line: Number(answerTwo.question),
+    column: Number(answerThree.question),
+  });
 
-  console.log('你要查找的文件是：', answerOne.question);
-  console.log('出错的行数是：', answerTwo.question);
-  console.log('出错的列数是：', answerThree.question);
+  console.log(positionInfo);
 };
 
 main();
