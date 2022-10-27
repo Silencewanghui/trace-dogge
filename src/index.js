@@ -10,11 +10,8 @@ const main = async () => {
     rawSourceMapFilePath: filePath,
   });
 
-  console.log(`
-    >>>>>>>>>>>>>>>>>>
-    对应源代码位置信息如下：
-    ${JSON.stringify(positionOfSourceCodes)}
-  `);
+  console.log('\n>>>>>>> 对应源代码位置信息如下：\n');
+  console.log(positionOfSourceCodes);
 };
 
 main();
