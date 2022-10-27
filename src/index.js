@@ -1,5 +1,6 @@
-import {inputErrorInfo} from './error-input';
-import {findSource} from './find-source';
+#! /usr/bin/env node
+import {inputErrorInfo} from './error-input.js';
+import {findSource} from './find-source.js';
 
 const main = async () => {
   const {appName, filePath, line, column} = await inputErrorInfo();
