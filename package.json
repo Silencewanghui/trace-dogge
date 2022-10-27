@@ -4,6 +4,7 @@
   "description": "Trace the source code position base on the source map file.",
   "main": "src/index.js",
   "type": "module",
+  "bin": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
