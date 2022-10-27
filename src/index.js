@@ -6,8 +6,8 @@ const readJson = (fileDirection) => {
   return JSON.parse(fs.readFileSync(fileDirection).toString());
 };
 
-const findSource = async ({rawSourceMapFileDirection, line, column}) => {
-  const fileContent = readJson(rawSourceMapFileDirection);
+const findSource = async ({rawSourceMapFilePath, line, column}) => {
+  const fileContent = readJson(rawSourceMapFilePath);
 
   const consumer = await new sourceMap.SourceMapConsumer(fileContent);
 
@@ -44,7 +44,7 @@ const main = async () => {
   ]);
 
   const positionInfo = await findSource({
-    rawSourceMapFileDirection: answerOne.question,
+    rawSourceMapFilePath: answerOne.question,
     line: Number(answerTwo.question),
     column: Number(answerThree.question),
   });
