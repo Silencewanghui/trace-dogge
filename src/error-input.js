@@ -3,12 +3,6 @@ import inquirer from 'inquirer';
 const questions = [
   {
     type: 'input',
-    name: 'appName',
-    message: '请输入你要分析的应用名',
-    default: 'collection',
-  },
-  {
-    type: 'input',
     name: 'filePath',
     message: '请输入你要分析的 sourceMap 文件名',
     default: 'bundle.js.map',

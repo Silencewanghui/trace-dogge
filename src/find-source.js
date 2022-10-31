@@ -2,20 +2,16 @@ import sourceMap from 'source-map';
 import fs from 'fs';
 import path from 'path';
 
-const ASSET_PATH_CONFIG = {
-  collection: 'dist/client-build/',
-};
-
-let _appName = '';
+import {getConfig} from './config.js';
 
 const getFullPath = (filePath) => {
-  const prefix = ASSET_PATH_CONFIG[_appName];
+  const {assetPath} = getConfig();
 
-  if (!prefix) {
-    throw new Error(`没有此应用 (${_appName}) 的构建目录配置`);
+  if (!assetPath) {
+    throw new Error(`没有此应用的构建目录配置`);
   }
 
-  return path.join(path.dirname('./'), prefix, filePath);
+  return path.join(path.dirname('./'), assetPath, filePath);
 };
 
 const getFileContent = (filePath) => {
@@ -24,10 +20,8 @@ const getFileContent = (filePath) => {
   return JSON.parse(fs.readFileSync(fullFilePath).toString());
 };
 
-export const findSource = async ({appName, rawSourceMapFilePath, line, column}) => {
+export const findSource = async ({rawSourceMapFilePath, line, column}) => {
   try {
-    _appName = appName;
-
     const fileContent = getFileContent(rawSourceMapFilePath);
 
     const consumer = await new sourceMap.SourceMapConsumer(fileContent);
@@ -40,7 +34,5 @@ export const findSource = async ({appName, rawSourceMapFilePath, line, column}) 
     console.error('解析 sourceMap 文件出错：', e);
 
     return null;
-  } finally {
-    _appName = '';
   }
 };
