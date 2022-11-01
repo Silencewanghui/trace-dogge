@@ -7,6 +7,8 @@ const configData = {
 
 let _appName = '';
 
+export const BRANCH_PREFIX = 'trace-dogge-temp';
+
 export const getConfig = (appName) => {
   const config = configData[appName || _appName];
 
@@ -14,7 +16,11 @@ export const getConfig = (appName) => {
     throw new Error(`没有此应用 (${_appName}) 的构建目录配置`);
   }
 
-  _appName = appName;
-
   return config;
 };
+
+export const setAppName = (appName) => {
+  _appName = appName;
+};
+
+export const getAppName = () => _appName;

@@ -1,30 +1,15 @@
 // Get the target git tag and build the target app.
-import inquirer from 'inquirer';
 import util from 'util';
 import {exec as nodeExec} from 'child_process';
 
-import {getConfig} from './config.js';
+import * as command from './command.js';
+import {getConfig, getAppName, setAppName, BRANCH_PREFIX} from './config.js';
 
 const exec = util.promisify(nodeExec);
 
-const questions = [
-  {
-    type: 'input',
-    name: 'appName',
-    message: '请输入你要分析的应用名',
-    default: 'collection',
-  },
-  {
-    type: 'input',
-    name: 'version',
-    message: '请输入你要分析的版本号(ex: collection-v3.77.6)',
-    default: '',
-  },
-];
-
 // Create a git branch base on the given version value as a git tag
 const createBranch = async (version) => {
-  const branchName = `trace-dogge-temp-${version}`;
+  const branchName = `${BRANCH_PREFIX}-${version}`;
   const command = `git checkout -b ${branchName} ${version}`;
 
   console.log(`\n>>>>>>> 开始新建分支\n`);
@@ -59,7 +44,14 @@ const buildApp = async (buildScript) => {
 
 export const execPreWork = async () => {
   try {
-    const {appName, version} = await inquirer.prompt(questions);
+    let appName = getAppName();
+
+    if (!appName) {
+      appName = await command.inputAppName();
+      setAppName(appName);
+    }
+
+    const version = await command.inputVersion();
 
     if (!appName || !version) {
       throw new Error('请输入应用信息！');
