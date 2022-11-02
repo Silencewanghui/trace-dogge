@@ -1,29 +1,11 @@
-import inquirer from 'inquirer';
-
-const questions = [
-  {
-    type: 'input',
-    name: 'filePath',
-    message: '请输入你要分析的 sourceMap 文件名',
-    default: 'bundle.js.map',
-  },
-  {
-    type: 'input',
-    name: 'line',
-    message: '请输入错误信息所在的行',
-    default: '',
-  },
-  {
-    type: 'input',
-    name: 'column',
-    message: '请输入错误信息所在的列',
-    default: '',
-  },
-];
+import * as command from './command.js';
 
 export const inputErrorInfo = async () => {
   try {
-    const result = await inquirer.prompt(questions);
+    const filePath = await command.inputFilepath();
+    const line = await command.inputLine();
+    const column = await command.inputColumn();
+    const result = {filePath, line, column};
 
     Object.keys(result).forEach((key) => {
       if (!result[key]) {
