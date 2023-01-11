@@ -1,6 +1,6 @@
 {
   "name": "trace-dogge",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Trace the source code position base on the source map file.",
   "main": "src/index.js",
   "type": "module",
