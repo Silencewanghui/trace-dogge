@@ -11,7 +11,7 @@ const configData = {
 
 let _appName = '';
 
-export const BRANCH_PREFIX = 'trace-dogge-temp';
+export const BRANCH_PREFIX = `trace-dogge-temp-${Date.now().toString().slice(-4)}`;
 
 export const getConfig = (appName) => {
   const config = configData[appName || _appName];
