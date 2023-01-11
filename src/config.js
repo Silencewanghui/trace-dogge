@@ -3,6 +3,10 @@ const configData = {
     buildScript: './pnpm build',
     assetPath: 'dist/client-build/',
   },
+  'workspaces-tools': {
+    buildScript: './pnpm run client-bundle',
+    assetPath: 'dist/',
+  },
 };
 
 let _appName = '';
