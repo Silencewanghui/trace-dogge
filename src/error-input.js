@@ -3,8 +3,7 @@ import * as command from './command.js';
 export const inputErrorInfo = async () => {
   try {
     const filePath = await command.inputFilepath();
-    const line = await command.inputLine();
-    const column = await command.inputColumn();
+    const {line, column} = await command.inputSourcePosition();
     const result = {filePath, line, column};
 
     Object.keys(result).forEach((key) => {

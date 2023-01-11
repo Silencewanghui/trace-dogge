@@ -25,8 +25,14 @@ const questions = {
       default: 'bundle.js.map',
     },
   ],
-  line: [{type: 'input', name: 'line', message: '请输入错误信息所在的行', default: ''}],
-  column: [{type: 'input', name: 'column', message: '请输入错误信息所在的列', default: ''}],
+  position: [
+    {
+      type: 'input',
+      name: 'position',
+      message: '请输入错误信息所在的位置(行:列)',
+      default: '',
+    },
+  ],
 };
 
 export const inputAppName = async () => {
@@ -59,22 +65,18 @@ export const inputFilepath = async () => {
   return filePath;
 };
 
-export const inputLine = async () => {
-  const {line} = await inquirer.prompt(questions.line);
+export const inputSourcePosition = async () => {
+  const {position} = await inquirer.prompt(questions.position);
 
-  if (!line) {
-    throw new Error('请输入错误信息所在的行！');
+  if (!position) {
+    throw new Error('请输入错误信息的位置信息！');
   }
 
-  return line;
-};
+  const [line, column] = position.split(':');
 
-export const inputColumn = async () => {
-  const {column} = await inquirer.prompt(questions.column);
-
-  if (!column) {
-    throw new Error('请输入错误信息所在的列！');
+  if (!line || !column) {
+    throw new Error('请输入规范的位置信息(行:列)');
   }
 
-  return column;
+  return {line, column};
 };
